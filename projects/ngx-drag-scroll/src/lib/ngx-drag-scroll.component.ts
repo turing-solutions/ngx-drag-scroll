@@ -250,6 +250,7 @@ export class DragScrollComponent implements OnDestroy, AfterViewInit, OnChanges,
       this.checkScrollbar();
     }
 
+    this._onMouseDownListener = this._renderer.listen(this._contentRef.nativeElement, 'touchstart', this.onMouseDownHandler.bind(this));
     this._onMouseDownListener = this._renderer.listen(this._contentRef.nativeElement, 'mousedown', this.onMouseDownHandler.bind(this));
     this._onScrollListener = this._renderer.listen(this._contentRef.nativeElement, 'scroll', this.onScrollHandler.bind(this));
     // prevent Firefox from dragging images
@@ -293,9 +294,9 @@ export class DragScrollComponent implements OnDestroy, AfterViewInit, OnChanges,
       // Workaround for prevent scroll stuck if browser lost focus
       // MouseEvent.buttons not support by Safari
       // tslint:disable-next-line:deprecation
-      if (!event.buttons && !event.which) {
-        return this.onMouseUpHandler(event);
-      }
+      // if (!event.buttons && !event.which) {
+      //   return this.onMouseUpHandler(event);
+      // }
 
       this._pointerEvents = 'none';
       this._setIsDragging(true);
@@ -303,8 +304,8 @@ export class DragScrollComponent implements OnDestroy, AfterViewInit, OnChanges,
       // Drag X
       if (!this.xDisabled && !this.dragDisabled) {
         const clientX = (event as MouseEvent).clientX;
-        this._contentRef.nativeElement.scrollLeft =
-          this._contentRef.nativeElement.scrollLeft - clientX + this.downX;
+        // this._contentRef.nativeElement.scrollLeft =
+        //   this._contentRef.nativeElement.scrollLeft - clientX + this.downX;
         this.downX = clientX;
       }
 
